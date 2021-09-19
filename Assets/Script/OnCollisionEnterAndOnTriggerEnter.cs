@@ -12,3 +12,5 @@ public class OnCollisionEnterAndOnTriggerEnter : MonoBehaviour
         Debug.Log(gameObject + "OnTriggerEnter " + other.gameObject.name);
     }
 }
+
+
