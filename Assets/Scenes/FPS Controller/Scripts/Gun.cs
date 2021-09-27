@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    [SerializeField] private float shootingDistance;
+    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private Transform _spawnBullet;
+    [SerializeField] private float _speedBullet;
 
+    [SerializeField] private GameObject _player;
+    
     private Camera _camera;
 
     private void Start()
@@ -18,12 +22,15 @@ public class Gun : MonoBehaviour
 
     private void Shoot()
     {
-        RaycastHit hit;
-        Debug.DrawLine(_camera.transform.position, _camera.transform.forward * shootingDistance, Color.red);
-        if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, shootingDistance))
+        if (Input.GetMouseButtonDown(0)) // Нажатие левой кнопки мыши
         {
-
+            GameObject bullet = Instantiate(_bulletPrefab, _spawnBullet.position, Quaternion.identity); // Создание пули
+            // Обращаемся к методу AddForce класса Rigidbody объекта пули и передаем напрвление камеры умноженное на скорость
+            //  т.к. пуля должна лететь в направление куда смотрит плеер
+            bullet.GetComponent<Rigidbody>().AddForce(_camera.transform.forward * _speedBullet);
+            Destroy(bullet, 15f); // Уничтожает пулю через 15 секунд
         }
-
     }
 }
+
+
